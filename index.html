@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reportes del curso – Análisis de Algoritmos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #d1d5db;
+
+      /* Tema TEAL (verde petróleo) */
+      --accent: #327c80;
+      --accent-soft: #d3f1f2;
+
+      --accent-2: #0f766e;
+      --accent-2-soft: #ccfbf1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top left, #cdeff1 0, #f3f4f6 40%, #f9fafb 100%);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 8px;
+    }
+
+    header {
+      background: linear-gradient(90deg, #145055, #327c80, #38a3a5);
+      color: #f9fafb;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .brand span {
+      opacity: 0.85;
+      font-weight: 400;
+    }
+
+    nav a {
+      margin-left: 16px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition:
+        border-color 0.15s ease,
+        color 0.15s ease,
+        opacity 0.15s ease;
+      opacity: 0.9;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+      border-color: rgba(248, 250, 252, 0.9);
+      opacity: 1;
+    }
+
+    main {
+      padding: 24px 0 40px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      nav a {
+        margin-left: 8px;
+      }
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      margin: 0 0 12px;
+      animation: fadeInUp 0.35s ease-out;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin: 24px 0 8px;
+    }
+
+    .meta-block {
+      border-left: 4px solid var(--accent);
+      background: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.25);
+      animation: fadeInUp 0.35s ease-out;
+    }
+
+    .meta-block:nth-of-type(2) {
+      border-left-color: var(--accent-2);
+    }
+
+    .meta-block p {
+      margin: 2px 0;
+      font-size: 0.95rem;
+    }
+
+    .meta-label {
+      font-weight: 600;
+    }
+
+    .section-text {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.5;
+      animation: fadeInUp 0.35s ease-out;
+      animation-delay: 0.05s;
+      animation-fill-mode: both;
+    }
+
+    .unit-list {
+      list-style: none;
+      margin: 12px 0 0;
+      padding: 0;
+    }
+
+    .unit-list li {
+      animation: fadeInUp 0.35s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .unit-list li:nth-child(1) { animation-delay: 0.03s; }
+    .unit-list li:nth-child(2) { animation-delay: 0.06s; }
+    .unit-list li:nth-child(3) { animation-delay: 0.09s; }
+    .unit-list li:nth-child(4) { animation-delay: 0.12s; }
+    .unit-list li:nth-child(5) { animation-delay: 0.15s; }
+
+    .unit-list li + li {
+      margin-top: 10px;
+    }
+
+    .unit-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.95rem;
+      transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
+      cursor: pointer;
+    }
+
+    .unit-link:hover {
+      background: linear-gradient(90deg, #e0f7f9, #f0fdfa);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(148, 163, 184, 0.5);
+    }
+
+    .unit-link.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(50, 124, 128, 0.35);
+      background: linear-gradient(90deg, #e0f7f9, #f0fdfa);
+    }
+
+    .unit-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .unit-title {
+      font-weight: 600;
+    }
+
+    .unit-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .unit-summary {
+      display: none;
+    }
+
+    .unit-link span.tag {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 500;
+      white-space: nowrap;
+      box-shadow: 0 0 0 1px rgba(50, 124, 128, 0.18);
+    }
+
+    .unit-list li:nth-child(2) .unit-link span.tag {
+      background: var(--accent-2-soft);
+      color: var(--accent-2);
+      box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.2);
+    }
+
+    /* (Ya no usamos disabled, pero lo dejamos por si algún día reactivas un “próximamente”) */
+    .unit-link-disabled {
+      cursor: default;
+      opacity: 0.7;
+      background: #f9fafb;
+    }
+
+    .unit-link-disabled span.tag {
+      background: #e5e7eb;
+      color: #374151;
+      box-shadow: 0 0 0 1px rgba(156, 163, 175, 0.3);
+    }
+
+    .detail-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 12px 14px 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 10px rgba(148, 163, 184, 0.35);
+      animation: fadeInUp 0.35s ease-out;
+    }
+
+    .detail-actions {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .detail-link {
+      display: inline-block;
+      font-size: 0.85rem;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: #ffffff;
+      background: linear-gradient(90deg, #145055, #327c80);
+      box-shadow: 0 2px 6px rgba(50, 124, 128, 0.45);
+      transition:
+        transform 0.1s ease,
+        box-shadow 0.1s ease,
+        opacity 0.1s ease;
+    }
+
+    .detail-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(50, 124, 128, 0.6);
+      opacity: 0.95;
+    }
+
+    #notebook-frame {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      background: #f9fafb;
+      min-height: 150vh;
+    }
+
+    footer {
+      border-top: 1px solid rgba(209, 213, 219, 0.8);
+      padding: 10px 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: right;
+      background: rgba(249, 250, 251, 0.94);
+      margin-top: 16px;
+      backdrop-filter: blur(4px);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="brand">
+        Edgar Santiago Gonzalez Martinez <span>· Reportes del curso Análisis de Algoritmos</span>
+      </div>
+      <nav>
+        <a href="#sobre-mi">Sobre esta página</a>
+        <a href="#unidades">Unidades</a>
+        <a href="https://github.com/edgarsanti/edgarsantiago" target="_blank" rel="noopener">Repositorio</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="layout">
+      <!-- Columna izquierda -->
+      <section id="sobre-mi">
+        <h1>Reportes del curso</h1>
+
+        <div class="meta-block">
+          <p><span class="meta-label">Institución:</span> INFOTEC – Centro de Investigación e Innovación en Tecnologías de la Información y Comunicación</p>
+          <p><span class="meta-label">Programa:</span> Maestría en Ciencia de Datos e Información</p>
+          <p><span class="meta-label">Materia:</span> Análisis de Algoritmos</p>
+        </div>
+
+        <div class="meta-block">
+          <p><span class="meta-label">Estudiante:</span> Edgar Santiago González Martínez</p>
+          <p><span class="meta-label">Profesor:</span> Dr. Eric Sadit Téllez Ávila</p>
+        </div>
+
+        <p class="section-text">
+          En esta página se recopilan los reportes en formato notebook correspondientes a las unidades del curso
+          <strong>Análisis de Algoritmos</strong>, desarrollados como parte de la Maestría en Ciencia de Datos e Información (INFOTEC).
+        </p>
+
+        <h2 id="unidades">Unidades publicadas</h2>
+
+        <ul class="unit-list">
+          <!-- Unidad 1 -->
+          <li>
+            <a class="unit-link" data-unit="u1" href="unidad1.html" target="_blank" rel="noopener">
+              <div class="unit-text">
+                <span class="unit-title">Unidad 1: Experimentos y análisis.</span>
+                <span class="unit-desc">Introducción al diseño de experimentos computacionales y estructura general de los reportes.</span>
+              </div>
+              <span class="tag">Notebook</span>
+            </a>
+          </li>
+
+          <!-- Unidad 2 -->
+          <li>
+            <a class="unit-link" data-unit="u2" href="unidad2.html" target="_blank" rel="noopener">
+              <div class="unit-text">
+                <span class="unit-title">Unidad 2: Experimentos y análisis de estructuras de datos.</span>
+                <span class="unit-desc">Complejidad temporal y notación asintótica aplicada a estructuras básicas.</span>
+              </div>
+              <span class="tag">Notebook</span>
+            </a>
+          </li>
+
+          <!-- Unidad 3 -->
+          <li>
+            <a class="unit-link" data-unit="u3" href="unidad3.html" target="_blank" rel="noopener">
+              <div class="unit-text">
+                <span class="unit-title">Unidad 3: Experimentos y análisis de algoritmos de ordenamiento.</span>
+                <span class="unit-desc">Comparación empírica de algoritmos clásicos de ordenamiento.</span>
+              </div>
+              <span class="tag">Notebook</span>
+            </a>
+          </li>
+
+          <!-- Unidad 4 -->
+          <li>
+            <a class="unit-link" data-unit="u4" href="unidad4.html" target="_blank" rel="noopener">
+              <div class="unit-text">
+                <span class="unit-title">Unidad 4: Experimentos y análisis de algoritmos de búsqueda por comparación.</span>
+                <span class="unit-desc">Análisis experimental de algoritmos de búsqueda sobre arreglos ordenados.</span>
+              </div>
+              <span class="tag">Notebook</span>
+            </a>
+          </li>
+
+          <!-- Unidad 5 -->
+          <li>
+            <a class="unit-link" data-unit="u5" href="unidad5.html" target="_blank" rel="noopener">
+              <div class="unit-text">
+                <span class="unit-title">Unidad 5: Experimentos y análisis de algoritmos de intersección de conjuntos.</span>
+                <span class="unit-desc">Diseño y comparación de estrategias para resolver el problema de intersección de conjuntos.</span>
+              </div>
+              <span class="tag">Notebook</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Columna derecha: panel del notebook -->
+      <aside>
+        <div class="detail-card" id="notebook-card">
+          <div class="detail-actions">
+            <a
+              id="detail-link"
+              class="detail-link"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              title="Abrir el notebook seleccionado en una nueva pestaña"
+            >
+              Abrir notebook en otra pestaña
+            </a>
+          </div>
+          <iframe id="notebook-frame" src="" title="Notebook del curso"></iframe>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2025 · edgarsanti · GitHub Pages
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const detailLink    = document.getElementById("detail-link");
+      const notebookFrame = document.getElementById("notebook-frame");
+      const notebookCard  = document.getElementById("notebook-card");
+
+      const unitLinks = document.querySelectorAll("a.unit-link");
+
+      function setActive(link) {
+        unitLinks.forEach((l) => l.classList.remove("active"));
+        if (link) {
+          link.classList.add("active");
+        }
+      }
+
+      function showUnit(link) {
+        const href   = link.getAttribute("href");
+        const unitId = link.dataset.unit;
+
+        detailLink.href   = href;
+        notebookFrame.src = href;
+
+        setActive(link);
+
+        if (unitId) {
+          window.history.replaceState(null, "", "#" + unitId);
+        }
+      }
+
+      unitLinks.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          // Permitir Ctrl/Cmd/Shift/Alt para abrir en otra pestaña
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+            return;
+          }
+          e.preventDefault();
+          showUnit(link);
+        });
+      });
+
+      // Al cargar: si hay hash (#u2, #u3, #u4, #u5...) usarlo; si no, Unidad 1
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        const link = document.querySelector(`a.unit-link[data-unit="${hash}"]`);
+        if (link) {
+          showUnit(link);
+          link.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+      }
+
+      const defaultLink = document.querySelector('a.unit-link[data-unit="u1"]');
+      if (defaultLink) {
+        showUnit(defaultLink);
+      }
+    });
+  </script>
+</body>
+</html>
